@@ -1,0 +1,39 @@
+:host {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#infinite-scroller {
+    display: flex;
+    flex: 1 auto;
+    flex-flow: column nowrap;
+    width: 100%;
+    height: 540px;
+    border: 1px solid #f5ad7c;
+    overflow: scroll;
+    padding: 0;
+    list-style: none;
+    li {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 10px 5px;
+        line-height: 1.5;
+        &:nth-child(odd) {
+            background: #ffe8d8;
+        }
+        &:nth-child(even) {
+            background: #f5ad7c;
+        }
+        .card {
+            border-radius: 3px;
+            width: 100%;
+            display: flex;
+            flex-flow: row nowrap;
+            align-content: center;
+            img {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                align-self: center;
+                margin: 12px;
+            }
+        }
+    }
+}

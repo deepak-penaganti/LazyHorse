@@ -6,6 +6,6 @@ export class AppPage {
   }
 
   getParagraphText() {
-    return element(by.css('snow-root h1')).getText();
+    return element(by.css('lazy-root h1')).getText();
   }
 }

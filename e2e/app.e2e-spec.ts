@@ -9,6 +9,6 @@ describe('lazy-horse App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to snow!');
+    expect(page.getParagraphText()).toEqual('Welcome to lazy!');
   });
 });

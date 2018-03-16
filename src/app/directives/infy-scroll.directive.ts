@@ -1,18 +1,22 @@
-import { Directive, AfterViewInit, ElementRef, Input } from '@angular/core';
+import { Directive, AfterViewInit, ElementRef, Input, EventEmitter, Output } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs/Rx';
+// import { Observable } from 'rxjs/observable';
+import { Subscription } from 'rxjs/subscription';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/pairwise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/exhaustMap';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/startWith';
 import { ScrollPosition, DEFAULT_SCROLL_POSITION } from '../models/scroll-position';
+import { HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[snowInfyScroll]'
+  selector: '[lazyInfyScroll]'
 })
-export class InfyScrollDirective {
+export class InfyScrollDirective implements AfterViewInit {
 
   private scrollEvent$;
 
@@ -29,27 +33,21 @@ export class InfyScrollDirective {
   immediateCallback;
 
   @Input()
-  scrollPercent = 70;
+  scrollPercent = 80;
 
   constructor(private elm: ElementRef) { }
 
   ngAfterViewInit() {
-
     this.registerScrollEvent();
-
-    this.streamScrollEvents();
-
+    this.observeScroll();
     this.requestCallbackOnScroll();
-
   }
 
   private registerScrollEvent() {
-
     this.scrollEvent$ = Observable.fromEvent(this.elm.nativeElement, 'scroll');
-
   }
 
-  private streamScrollEvents() {
+  private observeScroll() {
     this.userScrolledDown$ = this.scrollEvent$
       .map((e: any): ScrollPosition => ({
         sH: e.target.scrollHeight,
@@ -57,7 +55,7 @@ export class InfyScrollDirective {
         cH: e.target.clientHeight
       }))
       .pairwise()
-      .filter(positions => this.isUserScrollingDown(positions) && this.isScrollExpectedPercent(positions[1]))
+      .filter(positions => this.isUserScrollingDown(positions) && this.isScrollExpectedPercent(positions[1]));
   }
 
   private requestCallbackOnScroll() {
