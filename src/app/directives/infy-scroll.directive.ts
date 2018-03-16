@@ -1,6 +1,9 @@
-import { Directive, AfterViewInit, ElementRef, Input, EventEmitter, Output } from '@angular/core';
+import {
+  Directive, AfterViewInit,
+  ElementRef, Input, EventEmitter,
+  Output, OnDestroy
+} from '@angular/core';
 
-// import { Observable } from 'rxjs/observable';
 import { Subscription } from 'rxjs/subscription';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
@@ -14,28 +17,27 @@ import { ScrollPosition, DEFAULT_SCROLL_POSITION } from '../models/scroll-positi
 import { HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[lazyInfyScroll]'
+  selector: '[lazyInfyScroll]',
+  exportAs: 'lazyInfyScroll'
 })
-export class InfyScrollDirective implements AfterViewInit {
+export class InfyScrollDirective implements AfterViewInit, OnDestroy {
 
   private scrollEvent$;
 
   private userScrolledDown$;
 
-  private requestStream$;
-
-  private requestOnScroll$;
+  private requestOnScroll$: Observable<ScrollPosition[]>;
 
   @Input()
-  scrollCallback;
+  scrollCallback: Function;
 
   @Input()
-  immediateCallback;
+  immediateCallback: boolean;
 
   @Input()
   scrollPercent = 80;
 
-  constructor(private elm: ElementRef) { }
+  constructor(private eleRef: ElementRef) { }
 
   ngAfterViewInit() {
     this.registerScrollEvent();
@@ -43,13 +45,17 @@ export class InfyScrollDirective implements AfterViewInit {
     this.requestCallbackOnScroll();
   }
 
+  reAssign() {
+    this.ngAfterViewInit();
+  }
+
   private registerScrollEvent() {
-    this.scrollEvent$ = Observable.fromEvent(this.elm.nativeElement, 'scroll');
+    this.scrollEvent$ = Observable.fromEvent(this.eleRef.nativeElement, 'scroll');
   }
 
   private observeScroll() {
     this.userScrolledDown$ = this.scrollEvent$
-      .map((e: any): ScrollPosition => ({
+      .map((e): ScrollPosition => ({
         sH: e.target.scrollHeight,
         sT: e.target.scrollTop,
         cH: e.target.clientHeight
@@ -69,7 +75,9 @@ export class InfyScrollDirective implements AfterViewInit {
 
     this.requestOnScroll$
       .exhaustMap(() => this.scrollCallback())
-      .subscribe(() => { });
+      .subscribe(() => { }, err => {
+        console.log(err);
+      });
 
   }
 
@@ -79,6 +87,11 @@ export class InfyScrollDirective implements AfterViewInit {
 
   private isScrollExpectedPercent = (position) => {
     return ((position.sT + position.cH) / position.sH) > (this.scrollPercent / 100);
+  }
+
+  ngOnDestroy() {
+    this.userScrolledDown$.unsubscribe();
+    console.log('Destroyed scroll subscription...');
   }
 
 }

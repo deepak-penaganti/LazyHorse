@@ -1,21 +1,4 @@
-<input type="text" placeholder="Search by name, gender" (ngModelChange)="searchProfiles($event)" [(ngModel)]="searchText"
-  #searchInput name="search" id="search">
-<ul id="infinite-scroller" lazyInfyScroll scrollPercent="70" immediateCallback="true" [scrollCallback]="scrollCallback">
-  <li *ngFor="let profile of filteredProfiles">
-    <div class="card">
-      <!-- {{profile | json}} -->
-      <img [src]="profile.photo" alt="Profile picture of {{profile.name}}">
-      <div class="details" aria-hidden="true">
-        <h3 aria-label="Profile name">
-          name: {{profile.name}}, {{profile.surname}}
-        </h3>
-        <span aria-label="Profile gender">
-          Gender: {{profile.gender}}
-        </span>
-      </div>
-    </div>
-  </li>
-</ul>
-<h5 *ngIf="loading">
-  Loading...
-</h5>
+<nav>
+  <h1>Lazy Horse</h1>
+</nav>
+<router-outlet></router-outlet>

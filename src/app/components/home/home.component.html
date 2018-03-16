@@ -1,0 +1,57 @@
+<div class="side-view">
+  <div class="search">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Search by Name or Gender" [(ngModel)]="searchText" (ngModelChange)="searchProfiles($event)"
+        name="searchText" id="searchText">
+    </mat-form-field>
+  </div>
+  <div class="profiles" lazyInfyScroll scrollPercent="98" immediateCallback="true" [scrollCallback]="scrollCallback">
+    <!-- <div class="loader" *ngIf="loading">Loading...</div> -->
+    <div class="profile-card" *ngFor="let profile of filteredProfiles;let index = index">
+      <div class="shade">
+        <div class="title">
+          <h5 aria-label="Profile name" contenteditable="true" (input)="drag(refName, profile, 'name')" #refName>
+            {{profile.name}}
+          </h5>
+          <h5>, </h5>
+          <h5 aria-label="Profile Surname" contenteditable="true" (input)="drag(refSurname, profile, 'surname')" #refSurname>
+            {{profile.surname}}
+          </h5>
+        </div>
+        <div class="details" aria-hidden="true">
+          <div class="avatar">
+            <img [src]="profile.photo" alt="Profile picture of {{profile.name}}">
+            <!-- <h5 aria-label="Profile name">
+                      {{profile.title + '. ' + profile.name}}
+                      <br>{{profile.surname}}
+                    </h5> -->
+          </div>
+          <div class="metadata">
+            <span class="field" aria-label="Profile email">
+              <label>Email</label>: {{profile.email}}
+            </span>
+            <span class="field" aria-label="Profile phone">
+              <label>Phone</label>: {{profile.phone}}
+            </span>
+            <span class="field" aria-label="Profile gender">
+              <label>B'day</label>
+              <span class="info">(MM/DD/YYYY)</span>: {{profile.birthday.mdy}}
+            </span>
+            <span class="field" aria-label="Profile gender">
+              <label>Gender</label>: {{profile.gender}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="loading" class="profile-card">
+      <div class="shade">
+        <div class="title">
+          <h5 aria-label="Profile name">
+            Loading...
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

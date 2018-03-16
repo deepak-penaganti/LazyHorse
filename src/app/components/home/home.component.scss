@@ -1,0 +1,125 @@
+:host {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex: 1;
+    padding: 0px 0px 12px 0px;
+    overflow: hidden;
+    position: relative;
+    flex-flow: row nowrap;
+    display: flex;
+    .loader {
+        position: fixed;
+        top: 52px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.2);
+        -webkit-z-index: 785;
+        -moz-z-index: 785;
+        -ms-z-index: 785;
+        -o-z-index: 785;
+        z-index: 785;
+    }
+    .side-view {
+        display: flex;
+        width: calc(100%/3);
+        flex-flow: column nowrap;
+        border-right: 1px inset rgba(0, 0, 0, 0.4);
+    }
+    .search {
+        display: flex;
+        border-bottom: 1px inset rgba(0, 0, 0, 0.4);
+        mat-form-field {
+            width: 50%;
+            margin: auto;
+        }
+    }
+    .profiles {
+        position: relative;
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        overflow: auto;
+        padding: 8px;
+        padding-bottom: 18px;
+        z-index: 0;
+        .profile-card {
+            max-width: 100%;
+            width: 100%;
+            z-index: -2;
+            .title {
+                display: flex;
+                flex-flow: row nowrap;
+            }
+            div.shade {
+                border-radius: 3px;
+                box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.35);
+                display: flex;
+                flex: 1;
+                flex-flow: column nowrap;
+                align-content: center;
+                margin: 8px;
+                margin-top: 2px;
+                padding: 8px;
+                .details {
+                    display: flex;
+                    flex-flow: row nowrap;
+                }
+                .avatar {
+                    width: 25%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: flex;
+                    justify-content: center;
+                }
+                .metadata {
+                    display: flex;
+                    flex-flow: column nowrap;
+                    font-size: 14px;
+                    overflow: hidden;
+                    padding: 4px 20px;
+                    border-left: 1px solid #333;
+                    .info {
+                        font-size: 0.7em;
+                    }
+                    span.field {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    label {
+                        font-weight: 700;
+                    }
+                }
+                img {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    align-self: center;
+                    margin: 0px 12px;
+                    transition: transform 0.3s ease;
+                    &:hover {
+                        transform: scale(1.5);
+                    }
+                }
+                h5 {
+                    margin: 0px;
+                    text-align: left;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 769px) {
+    .side-view {
+        width: 100% !important;
+        mat-form-field {
+            width: 100% !important;
+            padding: 0px 12px;
+        }
+    }
+}
